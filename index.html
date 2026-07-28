@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NARRA — 提案A「一本の糸」｜ web-design-master proposal 2026-07-27</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   NARRA TOP — Proposal A「一本の糸」
+   by うぇぶこ / web-design-master 2026-07-27
+   構成・コピー = 内製モック v3 が正（変更なし）
+   変更したのは ビジュアルとレイアウトのみ
+   色は実測由来: #FCFCFC / #103948(narrative-platform実測)
+                #60AAB3(monoun実測 ≒ 旧サイト実写の卓 #62A4AB)
+                #21344C(旧サイト実写・藍の作業着 実測)
+   ========================================================= */
+
+/* --- br-widescale（自庫標準・実証済） --- */
+html{font-size:16px}
+@media(min-width:1600px){html{font-size:18px}}
+@media(min-width:1900px){html{font-size:20px}}
+@media(min-width:2150px){html{font-size:22px}}
+
+:root{
+  --paper:#FCFCFC;      /* 地 */
+  --paper2:#F4F7F7;     /* わずかな沈み */
+  --sumi:#103948;       /* 墨＝濃紺 */
+  --seiji:#60AAB3;      /* 青磁 */
+  --ai:#21344C;         /* 藍 */
+  --beni:#B03A3A;       /* 紅＝結びの糸 */
+  --mute:#5A6B72;
+  --rule:#DDE3E4;
+  --w:72rem;
+  --pad:max(1.5rem, calc((100vw - var(--w)) / 2));
+  --mincho:'Shippori Mincho B1',serif;
+  --gothic:'Zen Kaku Gothic New',sans-serif;
+  --en:'Fraunces',serif;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--sumi);
+  font-family:var(--gothic); font-weight:400;
+  font-size:.95rem; line-height:1.95;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:var(--mincho);font-weight:600;margin:0;line-height:1.42;letter-spacing:.02em}
+p{margin:0}
+
+/* L4: 明朝は3段のみ */
+.t1{font-size:clamp(2.6rem,5.6vw,4.6rem);line-height:1.28;letter-spacing:.01em}
+.t2{font-size:clamp(1.7rem,3.3vw,2.9rem);line-height:1.38}
+.t3{font-size:clamp(1.15rem,1.8vw,1.5rem);line-height:1.55}
+
+.en{font-family:var(--en);font-weight:300;letter-spacing:.13em;font-variant-ligatures:none}
+.lbl{font-family:var(--en);font-weight:400;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--seiji)}
+.body{color:var(--mute);font-size:.93rem;line-height:2.05}
+.beni{color:var(--beni)}
+
+.wrap{max-width:var(--w);margin-inline:auto;padding-inline:1.5rem;position:relative;z-index:2}
+section{position:relative;z-index:1}
+
+/* ---------- mock tag ---------- */
+.mocktag{
+  position:sticky;top:0;z-index:70;background:var(--sumi);color:#CFE0E4;
+  font-size:.68rem;letter-spacing:.1em;text-align:center;padding:.5rem 1rem;
+}
+
+/* ---------- header ---------- */
+header{
+  position:fixed;top:2.32rem;left:0;right:0;z-index:50;
+  background:rgba(252,252,252,.94);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem var(--pad);
+  transition:background .5s, padding .5s, box-shadow .5s;
+}
+header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
+.brand{font-family:var(--mincho);font-size:1.12rem;letter-spacing:.42em;font-weight:600}
+.nav{display:flex;align-items:center;gap:1.6rem;font-size:.76rem;letter-spacing:.08em}
+.nav a{color:var(--sumi);opacity:.72;transition:opacity .3s}
+.nav a:hover{opacity:1}
+.hd-cta{
+  border:1px solid var(--beni);color:var(--beni);
+  padding:.5rem 1.15rem;font-size:.74rem;letter-spacing:.1em;
+  transition:background .35s,color .35s;
+}
+.hd-cta:hover{background:var(--beni);color:#fff}
+@media(max-width:900px){.nav .lk{display:none}}
+
+/* ---------- 糸レール（このブランドだけの視覚装置） ---------- */
+#thread{
+  position:absolute;top:0;left:0;width:100%;
+  z-index:0;pointer-events:none;overflow:visible;
+}
+#thread path{fill:none;stroke:var(--beni);stroke-width:1.4;stroke-linecap:round;
+  vector-effect:non-scaling-stroke}
+#thread .ghost{stroke:var(--rule);stroke-width:1}
+#thread .dash{stroke-dasharray:1.5 8;stroke:var(--beni);opacity:.42;stroke-width:1.4}
+.ta{display:block;height:0;width:0;overflow:hidden}
+.tb{display:block;height:0;width:100%;overflow:hidden}
+.knot-end{margin-top:5.5rem}
+@media(max-width:1240px){#thread{opacity:.35}}
+@media(max-width:820px){#thread{display:none}}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(16px)}
+.rv.on{opacity:1;transform:none;transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+
+/* ================= HERO : br-bleed-gutter（七賢型・非対称ブリード） ==== */
+.hero{display:grid;grid-template-columns:38% 62%;min-height:100svh;align-items:stretch}
+.hero-band{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:6rem 3rem 4rem var(--pad);position:relative;z-index:2;
+}
+.hero-band .lbl{margin-bottom:1.9rem}
+.hero h1{margin:0 0 1.9rem}
+.hero .sub{font-family:var(--mincho);font-size:1rem;letter-spacing:.06em;color:var(--sumi);opacity:.8;margin-bottom:1.5rem}
+.hero .lead{max-width:30rem}
+.hero-foot{display:flex;gap:1rem;margin-top:2.6rem;flex-wrap:wrap}
+.btn{padding:.95rem 1.9rem;font-size:.8rem;letter-spacing:.1em;border:1px solid var(--beni);transition:.35s}
+.btn.fill{background:var(--beni);color:#fff}
+.btn.fill:hover{background:transparent;color:var(--beni)}
+.btn.ghost{border-color:var(--rule);color:var(--sumi)}
+.btn.ghost:hover{border-color:var(--sumi)}
+.hero-ph{position:relative;overflow:hidden}
+.hero-ph img{width:100%;height:100%;object-fit:cover;object-position:52% 46%}
+.hero-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(252,252,252,.55),rgba(252,252,252,0) 26%)}
+.hero-scroll{position:absolute;left:var(--pad);bottom:2rem;font-size:.62rem;letter-spacing:.3em;color:var(--mute);z-index:3}
+@media(max-width:820px){
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-band{padding:7.5rem 1.5rem 3rem}
+  .hero-ph{height:52svh;order:2}
+}
+
+/* ================= STATEMENT : L10 間の資産化 ==== */
+.statement{min-height:96svh;display:grid;align-content:center;padding:8rem 0}
+.statement .inner{max-width:var(--w);margin-inline:auto;padding-inline:1.5rem;width:100%}
+.statement h2{text-align:center;margin-bottom:0}
+.statement .body{max-width:31rem;margin-top:14rem;margin-left:0}
+@media(max-width:820px){.statement .body{margin-top:6rem}}
+
+/* ================= 章見出し（極大の薄い番号＝eyebrow反復をやめる） ==== */
+.sec{padding:9rem 0}
+.sechead{position:relative;margin-bottom:4.5rem}
+.secno{
+  position:absolute;left:-.06em;top:-.62em;z-index:-1;
+  font-family:var(--en);font-weight:300;
+  font-size:clamp(6rem,13vw,13rem);line-height:1;color:#EDF2F3;
+  user-select:none;
+}
+.sechead .lbl{display:block;margin-bottom:1.5rem}
+.sechead h2{max-width:22em}
+.sechead .body{max-width:38rem;margin-top:1.7rem}
+
+/* ================= 01 MODEL ==== */
+.pain{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:1rem;
+}
+.pain .p-l{text-align:right;padding:1rem 3.6rem 1rem 0}
+.pain .p-r{padding:1rem 0 1rem 3.6rem}
+.pain .lbl{display:block;margin-bottom:1rem}
+.pain h3{margin-bottom:1rem}
+.pain .body{max-width:24rem}
+.pain .p-l .body{margin-left:auto}
+@media(max-width:820px){
+  .pain{grid-template-columns:1fr;gap:3rem}
+  .pain .p-l{text-align:left;padding:0}
+  .pain .p-r{padding:0}
+  .pain .p-l .body{margin-left:0}
+}
+
+/* 糸の分岐図＝旧hub図（箱と矢印をやめる） */
+.hub{position:relative;margin-top:8rem;min-height:40rem}
+.hub .ta{position:absolute;left:0}
+.hub-knot{top:26%}
+.hub-fan{top:56%}
+.hub .node{position:absolute;text-align:center;width:14rem;margin-left:-7rem}
+.hub .node .lbl{display:block;margin-bottom:.5rem}
+.hub .node .tb{position:absolute;top:-1.2rem;left:0;width:100%}
+.hub .node .nm{display:block;font-family:var(--mincho);font-size:1.02rem;line-height:1.6}
+.hub .node .ds{display:block;font-size:.72rem;color:var(--mute);line-height:1.8;margin-top:.35rem}
+.hub .core{top:34%;left:50%;width:26rem;margin-left:-13rem}
+.hub .core .nm{font-size:1.6rem;letter-spacing:.3em}
+.hub .top{top:0;left:50%}
+.hub .t1x{bottom:0;left:18%}
+.hub .t2x{bottom:0;left:50%}
+.hub .t3x{bottom:0;left:82%}
+.hub .thumb{width:5rem;height:5rem;object-fit:cover;margin:0 auto .9rem;filter:grayscale(.15)}
+.hubnote{margin-top:7rem;max-width:46rem}
+.hubnote h3{margin-bottom:1.4rem}
+@media(max-width:820px){.hub{min-height:0;display:grid;gap:2.5rem;text-align:center}
+  .hub .node{position:static;width:auto;margin:0}}
+
+/* ================= 02 PHILOSOPHY : 右ブリード大判 ==== */
+.philo{display:grid;grid-template-columns:1fr 38vw;align-items:stretch;padding:9rem 0 0;position:relative}
+.philo>.ta{position:absolute;left:0;width:1px;height:1px;pointer-events:none}
+.philo>.ta:nth-of-type(1){top:0}
+.philo>.ta:nth-of-type(2){bottom:0}
+.philo-l{grid-column:1;grid-row:1}
+.philo-r{grid-column:2;grid-row:1}
+.philo-l{padding-left:var(--pad);padding-right:4rem;padding-bottom:9rem}
+.philo-l h2{max-width:14em;margin-bottom:3.5rem}
+.tri{border-left:1px solid var(--rule);padding-left:2.4rem;display:grid;gap:3rem;max-width:34rem}
+.tri .it{display:grid;grid-template-columns:2.6rem 1fr;align-items:start}
+.tri .k{font-family:var(--en);font-size:1.15rem;color:var(--seiji);line-height:1.5}
+.tri h3{margin-bottom:.6rem}
+.philo-r{position:relative;overflow:hidden;min-height:44rem}
+.philo-r img{position:sticky;top:0;width:100%;height:100svh;object-fit:cover}
+@media(max-width:820px){
+  .philo{grid-template-columns:1fr;padding-top:6rem}
+  .philo-l,.philo-r{grid-column:1;grid-row:auto}
+  .philo-l{padding:0 1.5rem 4rem}
+  .philo-r{min-height:0}.philo-r img{height:60svh;position:static}
+}
+
+/* ================= 03 PRODUCTS : 索引型（カード6枚をやめる） ==== */
+.index{border-top:1px solid var(--rule)}
+.ix{
+  display:grid;grid-template-columns:16rem 1fr 5.5rem;gap:2.5rem;align-items:center;
+  padding:1.9rem 0;border-bottom:1px solid var(--rule);position:relative;
+  transition:padding-left .5s cubic-bezier(.2,.7,.2,1);
+}
+.ix::before{content:"";position:absolute;left:0;top:-1px;width:0;height:1px;background:var(--beni);transition:width .7s cubic-bezier(.2,.7,.2,1)}
+.ix:hover{padding-left:1.4rem}
+.ix:hover::before{width:100%}
+.ix .en{display:block;font-size:.68rem;letter-spacing:.2em;color:var(--seiji);margin-bottom:.35rem;text-transform:uppercase}
+.ix h3{font-size:clamp(1.3rem,2.2vw,1.85rem);transition:color .4s}
+.ix:hover h3{color:var(--ai)}
+.ix .body{font-size:.85rem;line-height:1.95;max-width:34rem}
+.ix .th{width:5.5rem;height:5.5rem;overflow:hidden}
+.ix .th img{width:100%;height:100%;object-fit:cover;filter:grayscale(.2);transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .8s}
+.ix:hover .th img{transform:scale(1.09);filter:none}
+@media(max-width:820px){
+  .ix{grid-template-columns:1fr 4.5rem;gap:1.2rem}
+  .ix .body{grid-column:1/2}
+  .ix .th{width:4.5rem;height:4.5rem;grid-row:1/3;grid-column:2/3}
+}
+
+/* ================= 04 MAKERS : 図録スプレッド + br-tategaki ==== */
+.spread{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;min-height:78svh}
+.spread + .spread{margin-top:0}
+.spread .ph{position:relative;overflow:hidden;background:var(--paper2)}
+.spread .ph img{width:100%;height:100%;object-fit:cover;min-height:38rem}
+.spread .tx{display:flex;align-items:center;gap:2.4rem;padding:5rem var(--pad) 5rem 4rem}
+.spread.rev .tx{padding:5rem 4rem 5rem var(--pad);order:-1}
+.spread.rev .ph{order:2}
+.tate{
+  font-family:var(--mincho);font-size:.88rem;letter-spacing:0;line-height:2.0;
+  color:var(--mute);text-align:center;word-break:break-all;
+  width:1em;box-sizing:content-box;min-height:13rem;
+  flex:0 0 auto;align-self:flex-start;padding-top:.4rem;
+  border-right:1px solid var(--rule);padding-right:1.5rem;
+}
+.spread.rev .tate{order:2;border-right:0;border-left:1px solid var(--rule);padding-right:0;padding-left:1.3rem}
+.mk-body{max-width:30rem}
+.mk-body h3{font-size:clamp(1.6rem,3vw,2.4rem);margin-bottom:1.5rem;letter-spacing:.06em}
+.mk-note{display:block;margin-top:1.4rem;font-size:.68rem;color:#B08A2E;letter-spacing:.04em;line-height:1.8}
+@media(max-width:820px){
+  .spread{grid-template-columns:1fr;min-height:0}
+  .spread .ph img{min-height:22rem}
+  .spread .tx,.spread.rev .tx{padding:3rem 1.5rem;order:2}
+  .spread.rev .ph{order:1}
+  .tate{width:auto;min-height:0;border:0;padding:0 0 .8rem;text-align:left;letter-spacing:.16em}
+  .spread.rev .tate{border:0;padding:0 0 .8rem}
+  .spread .tx{flex-direction:column;align-items:flex-start;gap:.4rem}
+}
+
+/* ================= SOON ==== */
+.soon{padding:11rem 0;text-align:center}
+.soon .lbl{display:block;margin-bottom:1.8rem}
+.soon h2{margin-bottom:1.2rem}
+
+/* ================= 05 PARTNERSHIP ==== */
+.aud{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.aud .a-l{padding-right:4rem;text-align:right}
+.aud .a-r{padding-left:4rem}
+.aud .lbl{display:block;margin-bottom:1rem}
+.aud h3{margin-bottom:2rem}
+.aud ul{list-style:none;margin:0;padding:0;display:grid;gap:1.15rem}
+.aud li{font-size:.87rem;line-height:1.95;color:var(--mute);position:relative}
+.aud .a-l li{padding-right:1.2rem}
+.aud .a-r li{padding-left:1.2rem}
+.aud .a-l li::after,.aud .a-r li::before{
+  content:"";position:absolute;top:.85em;width:4px;height:4px;background:var(--beni);border-radius:50%;
+}
+.aud .a-l li::after{right:0}
+.aud .a-r li::before{left:0}
+@media(max-width:820px){
+  .aud{grid-template-columns:1fr;gap:3.5rem}
+  .aud .a-l{text-align:left;padding:0}.aud .a-r{padding:0}
+  .aud .a-l li{padding:0 0 0 1.2rem}
+  .aud .a-l li::after{right:auto;left:0}
+}
+
+/* ================= 06 CHANNELS : 糸の4分岐＝出口 ==== */
+.ch{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem;margin-top:2rem}
+.ch .c{padding-top:3.2rem;position:relative}
+.ch .c::before{content:"";position:absolute;left:0;top:0;width:1px;height:2.2rem;background:var(--rule)}
+.ch .n{font-family:var(--en);font-size:1.5rem;color:var(--seiji);line-height:1;margin-bottom:.9rem}
+.ch h3{font-size:1.1rem;margin-bottom:.7rem}
+.ch .body{font-size:.82rem}
+.ch .body .lnk{color:var(--ai);border-bottom:1px solid rgba(96,170,179,.6);padding-bottom:1px;transition:color .35s,border-color .35s}
+.ch .body .lnk:hover{color:var(--sumi);border-color:var(--seiji)}
+@media(max-width:900px){.ch{grid-template-columns:1fr 1fr;gap:2.5rem}}
+@media(max-width:560px){.ch{grid-template-columns:1fr}}
+
+/* ================= 07 FAQ ==== */
+.faq{border-top:1px solid var(--rule)}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{
+  list-style:none;cursor:pointer;padding:1.7rem 3rem 1.7rem 0;position:relative;
+  font-family:var(--mincho);font-size:1.02rem;letter-spacing:.03em;transition:color .35s;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--ai)}
+.faq summary::before,.faq summary::after{
+  content:"";position:absolute;right:.3rem;top:50%;background:var(--seiji);transition:transform .45s;
+}
+.faq summary::before{width:13px;height:1px;margin-top:0}
+.faq summary::after{width:1px;height:13px;margin-top:-6px;right:.68rem}
+.faq details[open] summary::after{transform:scaleY(0)}
+.faq .a{padding:0 3rem 2.1rem 0;max-width:52rem}
+
+/* ================= CONTACT + FOOTER（唯一の暗転・連続した1枚） ==== */
+.dark{background:var(--sumi);color:#EAF1F2}
+.dark .body{color:#9FB8BF}
+.dark .lbl{color:var(--seiji)}
+.contact{padding:11rem 0 7rem;text-align:center}
+.contact h2{margin:1.6rem 0 2rem}
+.contact .body{max-width:38rem;margin:0 auto 3rem}
+.contact .btn.fill{border-color:var(--beni)}
+.ft{padding:3.5rem 0 4rem;border-top:1px solid rgba(255,255,255,.12);
+  display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;font-size:.72rem;color:#8FA9B1;line-height:2}
+.ft .bd{font-family:var(--mincho);font-size:1rem;letter-spacing:.4em;color:#EAF1F2;display:block;margin-bottom:.6rem}
+</style>
+</head>
+<body>
+
+<div class="mocktag">PROPOSAL A「一本の糸」｜ うぇぶこ／web-design-master ｜ 2026-07-27（06改訂 2026-07-28）｜ 実写は旧サイト素材の仮当て・実績数値はダミー</div>
+
+<svg id="thread" aria-hidden="true"></svg>
+
+<header id="hd">
+  <a href="#" class="brand">NARRA</a>
+  <nav class="nav">
+    <a class="lk" href="#model">仕組み</a>
+    <a class="lk" href="#philosophy">考え方</a>
+    <a class="lk" href="#products">プロダクト</a>
+    <a class="lk" href="#makers">つくりて</a>
+    <a class="lk" href="#partnership">パートナー</a>
+    <a class="lk" href="#channels">販路</a>
+    <a class="lk" href="#faq">FAQ</a>
+    <a class="hd-cta" href="#contact">相談する</a>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-band">
+    <i class="ta" data-x="8"></i>
+    <span class="lbl rv">IP &times; Product Collaboration Hub</span>
+    <h1 class="t1 rv">物語を、<span class="beni">結ぶ</span>。</h1>
+    <p class="sub rv">結び、ほどく、創造の場。——&nbsp;The Art of Narrative.</p>
+    <p class="body lead rv">NARRAは、キャラクター・作品・世界観——IPと、日本のものづくりをひとつの窓口で結ぶコラボレーションハブです。<br>1社の契約から、複数のメーカー・複数の商品・複数の販路が動き出します。</p>
+    <div class="hero-foot rv">
+      <a class="btn fill" href="#contact">コラボの相談をする</a>
+      <a class="btn ghost" href="#model">仕組みを見る</a>
+    </div>
+    <i class="ta" data-x="8"></i>
+  </div>
+  <div class="hero-ph">
+    <img src="assets/ph_kyusu_tokoname.webp" alt="常滑焼の急須と、卓に長く伸びる影">
+  </div>
+  <span class="hero-scroll">SCROLL</span>
+</section>
+
+<!-- ============ STATEMENT（間） ============ -->
+<section class="statement">
+  <div class="inner">
+    <h2 class="t2 rv">結び、<span class="beni">ほどく</span>、創造の場。</h2>
+    <i class="ta" data-x="50" data-knot style="margin-top:3.2rem"></i>
+    <p class="body rv">静寂の中で研ぎ澄まされた技術と、想い。<br>NARRAは、日本のものづくりと物語（IP）を現代に解き放つ場所です。<br>作り手とIPホルダー、そして異分野の感性が結びつき、解け合い、<br>新たな創造を紡ぎ出す——「結び目」としての空間です。</p>
+    <i class="ta" data-x="50"></i>
+  </div>
+</section>
+
+<!-- ============ 01 MODEL ============ -->
+<section class="sec" id="model">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="secno">01</span>
+      <span class="lbl rv">Model</span>
+      <h2 class="t2 rv">IPコラボが進まない理由を、<br>窓口ひとつで解く。</h2>
+      <p class="body rv">IPを活かしたいメーカーと、IPを届けたいホルダー。双方に熱があっても、契約と調整の重さがプロジェクトを止めてきました。</p>
+    </div>
+
+    <i class="ta" data-x="50"></i>
+    <div class="pain">
+      <div class="p-l rv">
+        <span class="lbl">Maker Side</span>
+        <h3 class="t3">メーカーには、雛形契約すらない</h3>
+        <p class="body">ライセンス契約の経験がなく、法務・条件交渉・ロイヤリティ設計の入口で止まる。作る力はあるのに、結ぶ手段がない。</p>
+      </div>
+      <div class="p-r rv">
+        <span class="lbl">IP Holder Side</span>
+        <h3 class="t3">ホルダーには、1社ずつが重すぎる</h3>
+        <p class="body">メーカー1社ごとの審査・契約・監修は手続きが重く、小さなプロジェクトはリードしきれない。動かしたい気持ちはあるのに、始まらない。</p>
+      </div>
+    </div>
+
+    <!-- 旧hub図 → 糸そのものの分岐に置換 -->
+    <div class="hub">
+      <i class="ta hub-knot" data-x="50" data-knot></i>
+      <i class="ta hub-fan" data-x="50" data-branch="hub"></i>
+      <div class="node top rv">
+        <span class="lbl">IP Holder</span>
+        <span class="nm">IP保有企業</span>
+        <span class="ds">契約は NARRA と1本</span>
+      </div>
+      <div class="node core rv">
+        <span class="nm">NARRA</span>
+        <span class="ds">契約・企画・監修調整・製造管理・販路まで、一括キュレーション</span>
+      </div>
+      <div class="node t1x rv">
+        <i class="tb" data-x="18" data-group="hub"></i>
+        <img class="thumb" src="assets/ph_hakuji_mino.png" alt="">
+        <span class="lbl">Maker</span>
+        <span class="nm">メーカー A ｜ 器</span>
+      </div>
+      <div class="node t2x rv">
+        <i class="tb" data-x="50" data-group="hub"></i>
+        <img class="thumb" src="assets/ph_kashi.webp" alt="">
+        <span class="lbl">Maker</span>
+        <span class="nm">メーカー B ｜ 菓子</span>
+      </div>
+      <div class="node t3x rv">
+        <i class="tb" data-x="82" data-group="hub"></i>
+        <img class="thumb" src="assets/ph_katazome.webp" alt="">
+        <span class="lbl">Maker</span>
+        <span class="nm">メーカー C ｜ 刃物</span>
+      </div>
+    </div>
+
+    <div class="hubnote rv">
+      <h3 class="t2">1社と契約すれば、<br>複数のものづくりが動く。</h3>
+      <p class="body">百貨店・バイヤーにとっても「1つの窓口で複数の商品を持てる」ことは、そのまま話の早さになります。クラウドファンディングの現場で機能してきた営業ハブの型を、IPコラボレーションへ。</p>
+    </div>
+    <i class="ta" data-x="50"></i>
+  </div>
+</section>
+
+<!-- ============ 02 PHILOSOPHY ============ -->
+<section class="philo" id="philosophy">
+  <i class="ta" data-rail></i>
+  <div class="philo-l">
+    <div class="sechead">
+      <span class="secno">02</span>
+      <span class="lbl rv">Philosophy</span>
+      <h2 class="t2 rv">擦り切れたコラボは、<br>もうやらない。<br><span class="beni">集めたくなる</span>を、つくる。</h2>
+    </div>
+    <div class="tri">
+      <div class="it rv"><span class="k">A</span><div><h3 class="t3">絞ったIPを、深く</h3><p class="body">誰もが知る大型IPの乱発コラボではなく、世界観の濃いIPを選び抜き、プロダクトと丁寧に掛け合わせます。</p></div></div>
+      <div class="it rv"><span class="k">B</span><div><h3 class="t3">コレクションとして設計</h3><p class="body">1商品で終わらせず、集めて並べたくなるシリーズ設計。ファンの熱量が持続する形をつくります。</p></div></div>
+      <div class="it rv"><span class="k">C</span><div><h3 class="t3">暮らしで使える実需</h3><p class="body">飾るだけのグッズではなく、器・食品・道具——日常で使われるものにIPを宿らせます。</p></div></div>
+    </div>
+  </div>
+  <div class="philo-r"><img src="assets/ph_kokuyu_utsuwa.webp" alt="黒釉の器"></div>
+  <i class="ta" data-rail></i>
+</section>
+
+<!-- ============ 03 PRODUCTS（索引） ============ -->
+<section class="sec" id="products">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="secno">03</span>
+      <span class="lbl rv">Products</span>
+      <h2 class="t2 rv">IPと相性のよい、日本のものづくり。</h2>
+      <p class="body rv">実績と原価構造の見えているライフスタイル商材を中心に、コラボ設計しやすい領域からご提案します。</p>
+    </div>
+    <i class="ta" data-rail></i>
+    <div class="index">
+      <a class="ix rv" href="#contact"><div><span class="en">Lucky Cat</span><h3>招き猫</h3></div><p class="body">縁起物×キャラクター。絵付けの自由度が高く、コレクション化と相性抜群。</p><div class="th"><img src="assets/ph_hakuji_mino.png" alt=""></div></a>
+      <a class="ix rv" href="#contact"><div><span class="en">Tableware</span><h3>テーブルウェア</h3></div><p class="body">割れにくい樹脂食器。子どもからアウトドアまで、幅広い世代×幅広いデザイン展開。</p><div class="th"><img src="assets/ph_seiji_taku.webp" alt=""></div></a>
+      <a class="ix rv" href="#contact"><div><span class="en">Small Blades</span><h3>小型刃物</h3></div><p class="body">実用の道具×IPの意匠。コレクション需要と贈答需要の両方を取れる領域。</p><div class="th"><img src="assets/ph_katazome.webp" alt=""></div></a>
+      <a class="ix rv" href="#contact"><div><span class="en">Tatami</span><h3>畳・インテリア</h3></div><p class="body">柄を「印字するだけ」で世界観が立ち上がる。空間ごとIPに染める提案が可能。</p><div class="th"><img src="assets/ph_shirokabe.jpg" alt=""></div></a>
+      <a class="ix rv" href="#contact"><div><span class="en">Sweets &amp; Tea</span><h3>菓子・茶・飲料</h3></div><p class="body">シーズナルに強く、IPを非連続に掛け合わせやすい本命ジャンル。日本茶・日本酒も射程に。</p><div class="th"><img src="assets/ph_kashi.webp" alt=""></div></a>
+      <a class="ix rv" href="#contact"><div><span class="en">Daily Goods</span><h3>日用雑貨</h3></div><p class="body">マグカップ、ボトルキャップほか。手に取りやすい価格帯で、ファンの入口をつくる。</p><div class="th"><img src="assets/ph_houki_douban.png" alt=""></div></a>
+    </div>
+    <i class="ta" data-rail></i>
+  </div>
+</section>
+
+<!-- ============ 04 MAKERS（図録スプレッド） ============ -->
+<section id="makers" style="padding-top:9rem">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="secno">04</span>
+      <span class="lbl rv">Makers</span>
+      <h2 class="t2 rv">つくりて。</h2>
+      <p class="body rv">NARRAが伴走する、日本のつくり手たち。産地の技と現代の暮らしを結ぶパートナーです。</p>
+    </div>
+  </div>
+  <i class="ta" data-rail></i>
+
+  <div class="spread">
+    <div class="ph"><img src="assets/ph_koubou.webp" alt="工房で成形にあたる職人"></div>
+    <div class="tx">
+      <span class="tate">美濃焼 ｜ 岐阜県東濃</span>
+      <div class="mk-body rv">
+        <h3>HINOMIYA</h3>
+        <p class="body">日本一の陶磁器産地、岐阜・美濃焼。人間国宝を生む芸術性と高い工業力を併せ持ちながら、作家と工場は分断されてきました。その両者を繋ぎ「手間をかけた量産」に挑むのがHINOMIYAプロジェクト。2年間の対話と試行錯誤を経て、産地の強みを最大化した新たな関係性が形になりました。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="spread rev">
+    <div class="ph"><img src="assets/ph_kyusu_pair.png" alt="白と黒の常滑急須"></div>
+    <div class="tx">
+      <span class="tate">常滑焼急須 ｜ 愛知県常滑</span>
+      <div class="mk-body rv">
+        <h3>髙資陶苑</h3>
+        <p class="body">戦後創業の髙資陶苑は、困難とされた鋳込製法を常滑で確立し、産地の発展を牽引した名門。朱泥の風合いを活かした製法を礎に、二代目は現代の生活様式へ最適化。装飾を削ぎ落とした究極にシンプルな造形で土本来のクリアな質感を際立たせ、常滑焼急須の価値を再定義しています。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="spread">
+    <div class="ph"><img src="assets/ph_houki_te.webp" alt="棕櫚箒を銅線で締める職人の手"></div>
+    <div class="tx">
+      <span class="tate">棕櫚・シダ箒 ｜ 和歌山県海南</span>
+      <div class="mk-body rv">
+        <h3>深海産業</h3>
+        <p class="body">1950年創業、和歌山県海南市で伝統の「棕櫚（しゅろ）」文化を守り続ける老舗メーカー。伝統技術を現代に昇華させたブランド「Broom Craft」を展開し、職人の手仕事による箒はギフトショーでグランプリを受賞。伝統を今の暮らしに実装する注目の工房です。</p>
+        
+      </div>
+    </div>
+  </div>
+  <i class="ta" data-rail></i>
+</section>
+
+<!-- ============ COLLABORATIONS SOON ============ -->
+<section class="soon">
+  <div class="wrap">
+    <i class="ta" data-x="50" data-cut></i>
+    <span class="lbl rv">Collaborations</span>
+    <h2 class="t2 rv">最初の物語を、準備中。</h2>
+    <p class="body rv">IP × つくりてによる第一弾コラボレーションは、まもなく。</p>
+  </div>
+</section>
+
+<!-- ============ 05 PARTNERSHIP ============ -->
+<section class="sec" id="partnership">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="secno">05</span>
+      <span class="lbl rv">Partnership</span>
+      <h2 class="t2 rv">IPホルダーにも、メーカーにも。</h2>
+    </div>
+    <i class="ta" data-x="50"></i>
+    <div class="aud">
+      <div class="a-l rv">
+        <span class="lbl">For IP Holders</span>
+        <h3 class="t3">IPをお持ちの企業さまへ</h3>
+        <ul>
+          <li>契約はNARRAと1本。個別メーカーとの煩雑な手続きを引き受けます</li>
+          <li>世界観を損なわない監修フローを、企画段階から設計します</li>
+          <li>直営EC・百貨店・卸・海外まで、出口をセットでご提案</li>
+          <li>眠っているIP・これから動かすIPのテストマーケティングにも</li>
+        </ul>
+      </div>
+      <div class="a-r rv">
+        <span class="lbl">For Makers</span>
+        <h3 class="t3">ものづくり企業さまへ</h3>
+        <ul>
+          <li>ライセンス契約の実務（条件・ロイヤリティ・法務）を伴走します</li>
+          <li>IPの選定から商品企画・デザイン監修調整までワンストップ</li>
+          <li>単発のグッズではなく、継続して売れるシリーズとして設計します</li>
+          <li>クラウドファンディングで培った市場検証の型で、初速を作ります</li>
+        </ul>
+      </div>
+    </div>
+    <i class="ta" data-x="50" data-knot></i>
+  </div>
+</section>
+
+<!-- ============ 06 CHANNELS ============ -->
+<section class="sec" id="channels" style="padding-top:4rem">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="secno">06</span>
+      <span class="lbl rv">Channels</span>
+      <h2 class="t2 rv">つくって終わりにしない、4つの出口。</h2>
+    </div>
+    <i class="ta" data-x="50" data-branch="ch"></i>
+    <div class="ch">
+      <div class="c rv"><i class="tb" data-x="14" data-group="ch" data-align="left"></i><div class="n">01</div><h3>直営EC</h3><p class="body">自社の<a class="lnk" href="https://narrative-platform.com/" target="_blank" rel="noopener">ナラティブプラットフォーム</a>で直接届ける。反応と数字が最短で戻る出口。</p></div>
+      <div class="c rv"><i class="tb" data-x="38" data-group="ch" data-align="left"></i><div class="n">02</div><h3>百貨店・催事</h3><p class="body">1窓口で複数商品を提案できるNARRAの強みが最も活きる売場。</p></div>
+      <div class="c rv"><i class="tb" data-x="62" data-group="ch" data-align="left"></i><div class="n">03</div><h3>卸・店舗</h3><p class="body">全国の小売・専門店ネットワークへ。継続取引を前提に販路を拡張。</p></div>
+      <div class="c rv"><i class="tb" data-x="86" data-group="ch" data-align="left"></i><div class="n">04</div><h3>海外展示会</h3><p class="body">民間サポートの薄かった海外出展を伴走。出展から商談・物販まで。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 FAQ ============ -->
+<section class="sec" id="faq" style="padding-top:4rem">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="secno">07</span>
+      <span class="lbl rv">FAQ</span>
+      <h2 class="t2 rv">よくある質問</h2>
+    </div>
+    <div class="faq rv">
+      <details><summary>最小ロットはどのくらいから対応可能ですか？</summary><p class="body a">アイテムや使用する素材によって異なりますが、希少な伝統素材を用いた小規模な記念品（数十個〜）から、ホテルアメニティや観光施設での配布用（数千個単位）まで、柔軟に対応可能です。段階的な導入や、IPの規模に合わせたロット設計についてもお気軽にご相談ください。</p></details>
+      <details><summary>コラボの際、企画・デザインから依頼できますか？</summary><p class="body a">はい、コンセプト立案から最終的なプロダクト実装まで一貫してサポートします。IPの世界観を日本のものづくりで表現する限定プロダクト、ホテル・観光施設のアイデンティティを体現するオリジナルアイテムなど、パートナー様のブランド背景を深く理解した上で最適な形をご提案します。</p></details>
+      <details><summary>検討開始から納品までのスケジュールはどのくらいですか？</summary><p class="body a">通常、企画・試作に2〜4ヶ月、本制作に3〜6ヶ月程度を標準的な目安としています。伝統的な素材は生産に時間を要するものが多いですが、IPのリリース日やイベントといった「外せない期限」に合わせた進行管理を徹底します。お急ぎの場合は、既定のベースアイテムへの独自カスタマイズで短納期に仕上げることも可能です。</p></details>
+    </div>
+    <i class="ta knot-end" data-x="50" data-knot data-last></i>
+  </div>
+</section>
+
+<!-- ============ CONTACT + FOOTER ============ -->
+<div class="dark">
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <span class="lbl rv">Contact</span>
+      <h2 class="t2 rv">その物語、<br>結びにいきませんか。</h2>
+      <p class="body rv">新たな物語を、共に紡ぐ。IPコラボのご相談、商材・販路のご相談——まずは30分、オンラインでお話しましょう。</p>
+      <a class="btn fill rv" href="#">お問い合わせ（フォーム設置予定）</a>
+    </div>
+  </section>
+  <div class="wrap">
+    <div class="ft">
+      <div><span class="bd">NARRA</span>IP × プロダクト コラボレーションハブ ｜ 運営：物語運輸株式会社</div>
+      <div>© 2026 NARRA. All rights reserved.<br>PROPOSAL A — 構成・コピーは内製モックv3のまま／変更したのはビジュアルとレイアウト</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= 糸レール ================= */
+(function(){
+  var svg=document.getElementById('thread');
+  var R=16; /* 結び目の半径 */
+  var state={mains:[],branches:[]};
+
+  function railX(){
+    var w=document.querySelector('.wrap'); if(!w) return innerWidth*0.07;
+    var r=w.getBoundingClientRect();
+    var rem=parseFloat(getComputedStyle(document.documentElement).fontSize);
+    return Math.max(rem*1.1, r.left + rem*1.5 - rem*2.6);
+  }
+  function pt(el){
+    var r=el.getBoundingClientRect();
+    var x;
+    if(el.hasAttribute('data-rail')) x=railX();
+    else if(el.classList.contains('tb') && r.width>4) x=(el.dataset.align==='left')?r.left:r.left+r.width/2;
+    else x=innerWidth*parseFloat(el.dataset.x)/100;
+    return {x:x, y:r.top+scrollY};
+  }
+  function knot(x,y){
+    return 'C'+(x+2.3*R)+','+(y-0.4*R)+' '+(x+2.3*R)+','+(y+1.7*R)+' '+x+','+(y+1.1*R)
+         + 'C'+(x-2.3*R)+','+(y+0.5*R)+' '+(x-2.3*R)+','+(y+2.7*R)+' '+x+','+(y+2.2*R);
+  }
+  function seg(a,b){
+    var m=(a.y+b.y)/2;
+    return 'C'+a.x+','+m+' '+b.x+','+m+' '+b.x+','+b.y;
+  }
+
+  function build(){
+    var H=document.documentElement.scrollHeight;
+    svg.setAttribute('viewBox','0 0 '+innerWidth+' '+H);
+    svg.setAttribute('width',innerWidth); svg.setAttribute('height',H);
+    svg.style.height=H+'px';
+    svg.innerHTML='';
+
+    var els=[].slice.call(document.querySelectorAll('.ta'));
+    var A=els.map(function(el){var p=pt(el);p.knot=el.hasAttribute('data-knot');
+      p.cut=el.hasAttribute('data-cut');p.branch=el.dataset.branch||null;p.el=el;return p;});
+    A.sort(function(a,b){return a.y-b.y});
+    if(!A.length) return;
+
+    var GAP=95;              /* SOON＝まだ結ばれていない：糸を実際に切る幅 */
+    var runs=[], cur=null, joints={}, d='', start=null;
+
+    function open(p){ d='M'+p.x+','+p.y; start=p; cur={x:p.x,y:p.y}; }
+    function close(){ if(d&&cur) runs.push({d:d,y0:start.y,y1:cur.y}); d=''; }
+
+    open(A[0]);
+    if(A[0].knot){ d+=knot(A[0].x,A[0].y); cur={x:A[0].x,y:A[0].y+2.2*R}; }
+    if(A[0].branch) joints[A[0].branch]={x:cur.x,y:cur.y};
+
+    for(var i=1;i<A.length;i++){
+      var n=A[i];
+      if(n.cut){
+        var a={x:n.x,y:n.y-GAP}, b={x:n.x,y:n.y+GAP};
+        d+=seg(cur,a); cur=a; close();
+        var dp=document.createElementNS('http://www.w3.org/2000/svg','path');
+        dp.setAttribute('class','dash');
+        dp.setAttribute('d','M'+a.x+','+a.y+'L'+b.x+','+b.y);
+        svg.appendChild(dp);
+        open(b);
+        continue;
+      }
+      d+=seg(cur,n); cur={x:n.x,y:n.y};
+      if(n.knot){ d+=knot(n.x,n.y); cur={x:n.x,y:n.y+2.2*R}; }
+      if(n.branch) joints[n.branch]={x:cur.x,y:cur.y};
+    }
+    close();
+
+    state.mains=[];
+    runs.forEach(function(r){
+      var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+      p.setAttribute('d',r.d); svg.appendChild(p);
+      state.mains.push({el:p,y0:r.y0,y1:r.y1});
+    });
+
+    /* 分岐（hub＝3本 / ch＝4本） */
+    state.branches=[];
+    var groups={};
+    [].slice.call(document.querySelectorAll('.tb')).forEach(function(el){
+      var g=el.dataset.group;(groups[g]=groups[g]||[]).push(pt(el));
+    });
+    Object.keys(groups).forEach(function(g){
+      var src=joints[g]; if(!src) return;
+      groups[g].forEach(function(t){
+        var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('d','M'+src.x+','+src.y+seg(src,t));
+        svg.appendChild(p);
+        state.branches.push({el:p,y0:src.y,y1:t.y});
+      });
+    });
+
+    state.mains.concat(state.branches).forEach(function(o){
+      var L=o.el.getTotalLength();
+      o.el.style.strokeDasharray=L; o.el.style.strokeDashoffset=L; o.L=L;
+    });
+    draw();
+  }
+
+  function prog(y0,y1){
+    var p=(scrollY+innerHeight*0.78-y0)/Math.max(1,(y1-y0));
+    return Math.max(0,Math.min(1,p));
+  }
+  function draw(){
+    if(!state.mains.length) return;
+    var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    state.mains.forEach(function(m){
+      var p=reduce?1:prog(m.y0,m.y1);
+      m.el.style.strokeDashoffset=m.L*(1-p);
+    });
+    state.branches.forEach(function(b){
+      var q=reduce?1:prog(b.y0-innerHeight*0.15,b.y1);
+      b.el.style.strokeDashoffset=b.L*(1-q);
+    });
+  }
+
+  var tick=false;
+  addEventListener('scroll',function(){
+    if(tick)return;tick=true;requestAnimationFrame(function(){draw();tick=false});
+  },{passive:true});
+  var rt; addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(build,180)});
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(function(){setTimeout(build,60)})}
+  addEventListener('load',function(){setTimeout(build,120)});
+  build();
+  window.__threadBuild=build;
+})();
+
+/* ================= reveal ================= */
+(function(){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var sibs=[].slice.call(e.target.parentNode.querySelectorAll(':scope > .rv'));
+        var i=Math.max(0,sibs.indexOf(e.target));
+        e.target.style.transitionDelay=(i*0.09)+'s';
+        e.target.classList.add('on'); io.unobserve(e.target);
+      }
+    });
+  },{threshold:.05,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+})();
+
+/* ================= header ================= */
+addEventListener('scroll',function(){
+  document.getElementById('hd').classList.toggle('on',scrollY>40);
+},{passive:true});
+</script>
+</body>
+</html>
