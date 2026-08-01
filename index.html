@@ -313,6 +313,17 @@ header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
 @media(max-width:900px){.ch{grid-template-columns:1fr 1fr;gap:2.5rem}}
 @media(max-width:560px){.ch{grid-template-columns:1fr}}
 
+/* results 3col（.ch言語の流用） */
+.res{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin-top:2rem}
+.res .c{padding-top:0;position:relative}
+.res .c .ph{aspect-ratio:4/3;overflow:hidden;margin-bottom:1.4rem}
+.res .c .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.res .en{display:block;font-size:.68rem;letter-spacing:.2em;color:var(--seiji);margin-bottom:.4rem;text-transform:uppercase}
+.res h3{font-size:1.05rem;margin-bottom:.6rem}
+.res .num{font-family:var(--en);font-size:1.6rem;color:var(--sumi);line-height:1.2;margin-bottom:.3rem}
+.res .body{font-size:.8rem}
+@media(max-width:900px){.res{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.res{grid-template-columns:1fr}}
 /* ================= 07 FAQ ==== */
 .faq{border-top:1px solid var(--rule)}
 .faq details{border-bottom:1px solid var(--rule)}
@@ -466,7 +477,7 @@ header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
     <div class="sechead">
       <span class="secno">02</span>
       <span class="lbl rv">Philosophy</span>
-      <h2 class="t2 rv">擦り切れたコラボは、<br>もうやらない。<br><span class="beni">集めたくなる</span>を、つくる。</h2>
+      <h2 class="t2 rv"><span class="beni">集めたくなる</span>を、つくる。</h2>
     </div>
     <div class="tri">
       <div class="it rv"><span class="k">A</span><div><h3 class="t3">絞ったIPを、深く</h3><p class="body">誰もが知る大型IPの乱発コラボではなく、世界観の濃いIPを選び抜き、プロダクトと丁寧に掛け合わせます。</p></div></div>
@@ -622,10 +633,10 @@ header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
       <p class="body rv">運営・<a class="lnk" href="https://monoun.jp/" target="_blank" rel="noopener">物語運輸株式会社</a>は、海外クラウドファンディング（Kickstarter）を主戦場に、日本のものづくりを世界へ届けてきました。その実行力が、NARRAの土台です。</p>
     </div>
     <i class="ta" data-rail></i>
-    <div class="index">
-      <a class="ix rv" href="#contact"><div><span class="en">Urushi Art ｜ Project We Love</span><h3>Ancient Beauty Reborn（漆芸）</h3></div><p class="body">達成額 ¥5,820,885（目標 ¥300,000） ｜ 支援者 161人 ｜ プロダクトデザイン</p><div class="th"><img src="assets/ph_kokuyu_utsuwa.webp" alt=""></div></a>
-      <a class="ix rv" href="#contact"><div><span class="en">Tokoname Kyusu ｜ Project We Love</span><h3>TAKASUKE：伝統×革新の超薄型急須</h3></div><p class="body">達成額 ¥3,152,470（1,050％達成） ｜ 支援者 177人 ｜ プロダクトデザイン</p><div class="th"><img src="assets/ph_kyusu_pair.png" alt=""></div></a>
-      <a class="ix rv" href="#contact"><div><span class="en">Tatami ｜ Project We Love</span><h3>畳のある暮らし：日本の心を身近にするアイテム</h3></div><p class="body">達成額 ¥2,547,368（849％達成） ｜ 支援者 202人 ｜ ホーム＆ライフスタイル</p><div class="th"><img src="assets/ph_shirokabe.jpg" alt=""></div></a>
+    <div class="res">
+      <div class="c rv"><div class="ph"><img src="assets/ph_kokuyu_utsuwa.webp" alt=""></div><span class="en">Urushi Art ｜ Project We Love</span><h3>Ancient Beauty Reborn（漆芸）</h3><div class="num">¥5,820,885</div><p class="body">目標 ¥300,000 ｜ 支援者 161人 ｜ プロダクトデザイン</p></div>
+      <div class="c rv"><div class="ph"><img src="assets/ph_kyusu_pair.png" alt=""></div><span class="en">Tokoname Kyusu ｜ Project We Love</span><h3>TAKASUKE：伝統×革新の超薄型急須</h3><div class="num">¥3,152,470</div><p class="body">1,050％達成 ｜ 支援者 177人 ｜ プロダクトデザイン</p></div>
+      <div class="c rv"><div class="ph"><img src="assets/ph_shirokabe.jpg" alt=""></div><span class="en">Tatami ｜ Project We Love</span><h3>畳のある暮らし：日本の心を身近にするアイテム</h3><div class="num">¥2,547,368</div><p class="body">849％達成 ｜ 支援者 202人 ｜ ホーム＆ライフスタイル</p></div>
     </div>
     <i class="ta" data-rail></i>
   </div>
