@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>会社概要 ｜ NARRA</title>
+<title>会社概要 ｜ NARRA — IP × プロダクト コラボレーションハブ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
@@ -75,7 +75,7 @@ section{position:relative;z-index:1}
 
 /* ---------- header ---------- */
 header{
-  position:fixed;top:2.32rem;left:0;right:0;z-index:50;
+  position:fixed;top:0;left:0;right:0;z-index:50;
   background:rgba(252,252,252,.94);backdrop-filter:blur(10px);
   display:flex;align-items:center;justify-content:space-between;
   padding:1.1rem var(--pad);
@@ -92,6 +92,8 @@ header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
   transition:background .35s,color .35s;
 }
 .hd-cta:hover{background:var(--beni);color:#fff}
+@media(max-width:1360px){.nav{gap:1.1rem;font-size:.72rem;letter-spacing:.05em}}
+@media(max-width:1180px){.nav .lk[href$="#philosophy"],.nav .lk[href$="#faq"],.nav .lk[href$="#partnership"]{display:none}.nav{gap:1rem}}
 @media(max-width:900px){.nav .lk{display:none}}
 
 /* ---------- 糸レール（このブランドだけの視覚装置） ---------- */
@@ -366,11 +368,23 @@ header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
 </head>
 <body>
 
-<header id="hd" style="position:static">
-  <a class="brand" href="index.html" style="font-family:var(--en);letter-spacing:.3em;font-size:1rem;color:var(--sumi);padding:1.4rem var(--pad);display:inline-block">NARRA</a>
+<header id="hd">
+  <a href="index.html" class="brand">NARRA</a>
+  <nav class="nav">
+    <a class="lk" href="index.html#model">仕組み</a>
+    <a class="lk" href="index.html#philosophy">考え方</a>
+    <a class="lk" href="index.html#products">プロダクト</a>
+    <a class="lk" href="index.html#makers">つくりて</a>
+    <a class="lk" href="index.html#partnership">パートナー</a>
+    <a class="lk" href="index.html#channels">販路</a>
+    <a class="lk" href="index.html#results">実績</a>
+    <a class="lk" href="index.html#faq">FAQ</a>
+    <a class="lk" href="company.html">会社概要</a>
+    <a class="hd-cta" href="index.html#contact">相談する</a>
+  </nav>
 </header>
 
-<section class="sec" style="padding-top:4rem">
+<section class="sec" style="padding-top:10rem">
   <div class="wrap">
     <div class="sechead">
       <span class="lbl rv">Company</span>
@@ -393,8 +407,13 @@ header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
 
 <div class="co-foot">
   <span>© 2026 NARRA ｜ 物語運輸株式会社</span>
-  
 </div>
+
+<script>
+addEventListener('scroll',function(){
+  document.getElementById('hd').classList.toggle('on',scrollY>40);
+},{passive:true});
+</script>
 
 </body>
 </html>
