@@ -2,8 +2,9 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NARRA ｜ IP × プロダクト コラボレーションハブ</title>
+<title>NARRA — 提案A「一本の糸」｜ web-design-master proposal 2026-07-27</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
@@ -56,6 +57,7 @@ p{margin:0}
 
 /* L4: 明朝は3段のみ */
 .t1{font-size:clamp(2.6rem,5.6vw,4.6rem);line-height:1.28;letter-spacing:.01em}
+.t1 .u{white-space:nowrap;display:inline-block}
 .t2{font-size:clamp(1.7rem,3.3vw,2.9rem);line-height:1.38}
 .t3{font-size:clamp(1.15rem,1.8vw,1.5rem);line-height:1.55}
 
@@ -92,6 +94,8 @@ header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
   transition:background .35s,color .35s;
 }
 .hd-cta:hover{background:var(--beni);color:#fff}
+@media(max-width:1360px){.nav{gap:1.1rem;font-size:.72rem;letter-spacing:.05em}}
+@media(max-width:1180px){.nav .lk[href="#philosophy"],.nav .lk[href="#faq"],.nav .lk[href="#partnership"]{display:none}.nav{gap:1rem}}
 @media(max-width:900px){.nav .lk{display:none}}
 
 /* ---------- 糸レール（このブランドだけの視覚装置） ---------- */
@@ -355,6 +359,7 @@ header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
 </head>
 <body>
 
+<div class="mocktag">PROPOSAL A「一本の糸」｜ うぇぶこ／web-design-master ｜ 2026-07-27（06改訂 2026-07-28）｜ 実写は旧サイト素材の仮当て・実績数値は公式サイト（monoun.jp）掲載値</div>
 
 <svg id="thread" aria-hidden="true"></svg>
 
@@ -379,7 +384,7 @@ header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
   <div class="hero-band">
     <i class="ta" data-x="8"></i>
     <span class="lbl rv">IP &times; Product Collaboration Hub</span>
-    <h1 class="t1 rv">物語を、<span class="beni">結ぶ</span>。</h1>
+    <h1 class="t1 rv"><span class="u">物語を、</span><span class="u"><span class="beni">結ぶ</span>。</span></h1>
     <p class="sub rv">結び、ほどく、創造の場。——&nbsp;The Art of Narrative.</p>
     <p class="body lead rv">NARRAは、キャラクター・作品・世界観——IPと、日本のものづくりをひとつの窓口で結ぶコラボレーションハブです。<br>1社の契約から、複数のメーカー・複数の商品・複数の販路が動き出します。</p>
     <div class="hero-foot rv">
@@ -660,7 +665,7 @@ header.on{padding:.72rem var(--pad);box-shadow:0 1px 0 var(--rule)}
   <div class="wrap">
     <div class="ft">
       <div><span class="bd">NARRA</span>IP × プロダクト コラボレーションハブ ｜ 運営：物語運輸株式会社</div>
-      <div>© 2026 NARRA ｜ 運営：物語運輸株式会社</div>
+      <div>© 2026 NARRA. All rights reserved.<br>PROPOSAL A — 構成・コピーは内製モックv3のまま／変更したのはビジュアルとレイアウト</div>
     </div>
   </div>
 </div>
